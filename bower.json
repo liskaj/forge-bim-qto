@@ -1,0 +1,13 @@
+{
+  "name": "forge-bim-qto",
+  "description": "Forge BIM QTO Application",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "requirejs": "^2.3.2"
+  }
+}
