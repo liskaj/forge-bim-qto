@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "listFiles": true,
+    "locale": "en-US",
+    "module": "amd",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "sourceMap": true,
+    "target": "es5",
+    "typeRoots": [
+      "../../node_modules/@types"
+    ]
+  },
+  "files": [
+    "scripts/appController.ts",
+    "scripts/main.ts",
+    "scripts/viewerController.ts",
+    "scripts/extension/bimExtension.ts",
+    "scripts/extension/panelBase.ts",
+    "scripts/extension/qtoController.ts",
+    "scripts/extension/qtoPanel.ts"
+  ]
+}

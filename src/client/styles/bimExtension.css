@@ -1,0 +1,84 @@
+.qto-btn {
+    background:url(../images/qto.png) no-repeat;
+    background-position: center;
+    height: 24px;
+    width: 24px;
+}
+
+.qto-panel-container {
+    color: #f2f2f2;
+    margin: 10px;
+}
+
+.qto-input-row {
+
+}
+
+.qto-input-row > select {
+    border-radius: 3px;
+    height: 22px;
+}
+
+.qto-input-row span:nth-child(1) {
+    margin: 0 4px 0 4px;
+}
+
+.qto-input-row span:nth-child(3) {
+    margin: 0 4px 0 14px;
+}
+
+.qto-input-row button {
+    background-color: #f2f2f2;
+    border: 1px solid #a9a9a9;
+    border-radius: 4px;
+    color: #404040;
+    cursor: pointer;
+    width: 60px;
+    text-align: center;
+    margin: 4px 4px 4px 4px;
+    padding: 4px;
+}
+
+.qto-data-header {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    margin: 10px 0 4px 0;
+}
+
+.qto-data-header span {
+    margin: 0 4px 0 4px;
+    width: 80px;
+}
+
+.qto-data-header span:first-child {
+    width: 50px;
+}
+
+.qto-data-header span:nth-child(2) {
+    width: 140px;
+}
+
+.qto-data-row {
+    display: flex;
+    flex-direction: row;
+    margin: 4px 0 4px 0;
+}
+
+.qto-data-row span {
+    cursor: pointer;
+    margin: 0 4px 0 4px;
+    width: 80px;
+}
+
+.qto-data-row span:first-child {
+    width: 50px;
+}
+
+.qto-data-row span:nth-child(2) {
+    width: 140px;
+}
+
+.qto-data-row span:last-child {
+    border-radius: 4px;
+}
