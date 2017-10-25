@@ -37,7 +37,7 @@ export class BIMExtension extends Autodesk.Viewing.Extension {
             this.onQto(e);
         };
         // add button to the goup
-        const ctrlGroup = new Autodesk.Viewing.UI.ControlGroup('sampleExtension.Toolbar.ControlGroup');
+        const ctrlGroup = new Autodesk.Viewing.UI.ControlGroup('BIMExtension.Toolbar.ControlGroup');
 
         ctrlGroup.addControl(this._btnQto);
         // add group to main toolbar
@@ -46,7 +46,7 @@ export class BIMExtension extends Autodesk.Viewing.Extension {
 
     private onQto(e: MouseEvent): void {
         if (!this._qtoPanel) {
-            this._qtoPanel = new QtoPanel(this.viewer.container, 'BIMExtension.SamplePanel', this._qtoController);
+            this._qtoPanel = new QtoPanel(this.viewer.container, 'BIMExtension.QtoPanel', this._qtoController);
             this.viewer.addPanel(this._qtoPanel);
             // as the panel visibility changes, we fix the button state
             this._qtoPanel.addVisibilityListener((state: boolean) => {
