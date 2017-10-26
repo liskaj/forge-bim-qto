@@ -171,11 +171,11 @@ export class QtoController {
     }
 
     private getColor(name: string): number[] {
-        let colorMatch = name.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/);
-        let r: number = parseInt(colorMatch[1], 16),
-            g: number = parseInt(colorMatch[2], 16),
-            b: number = parseInt(colorMatch[3], 16),
-            a: number = (colorMatch.length === 5 ? parseFloat(colorMatch[4]) : 1.0);
+        const colorMatch = name.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/);
+        const r: number = parseInt(colorMatch[1], 16);
+        const g: number = parseInt(colorMatch[2], 16);
+        const b: number = parseInt(colorMatch[3], 16);
+        const a: number = (colorMatch.length === 5 ? parseFloat(colorMatch[4]) : 1.0);
 
         return [ r, g, b, a ];
     }

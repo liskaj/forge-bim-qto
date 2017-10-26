@@ -3,8 +3,8 @@ import { QtoController, QtoData, QtoDataRow } from './qtoController';
 
 interface ReportData {
     name: string;
-    category: string,
-    properties: string[]
+    category: string;
+    properties: string[];
 }
 
 export class QtoPanel extends PanelBase {
@@ -99,7 +99,9 @@ export class QtoPanel extends PanelBase {
             data.rows.forEach((r, index) => {
                 const row: HTMLDivElement = document.createElement('div');
 
+                /* tslint:disable:no-string-literal */
                 row.dataset['row'] = index.toString();
+                /* tslint:enable:no-string-literal */
                 row.className = 'qto-data-row';
                 data.properties.forEach((p) => {
                     const cell: HTMLSpanElement = document.createElement('span');
@@ -121,14 +123,14 @@ export class QtoPanel extends PanelBase {
         });
     }
 
-    private onBtnPropertyAddClick(e): void {
+    private onBtnPropertyAddClick(e: any): void {
         const property = <string> this._selProperty.val();
 
         this._properties.push(property);
         this.reloadData();
     }
 
-    private onDataContainerClick(e): void {
+    private onDataContainerClick(e: any): void {
         const rowElement = $(e.target).closest('.qto-data-row');
 
         if (!rowElement) {
@@ -139,7 +141,7 @@ export class QtoPanel extends PanelBase {
         this._controller.select(row);
     }
 
-    private onSelReportTypeChange(e): void {
+    private onSelReportTypeChange(e: any): void {
         const reportType: string = <string> this._selReportType.val();
 
         this._reportData = this._reports[reportType];
