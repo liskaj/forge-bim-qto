@@ -15,6 +15,7 @@ export class QtoPanel extends PanelBase {
     private _properties: string[] = [];
     private _templateLoaded: boolean = false;
     private _btnPropertyAdd: JQuery;
+    private _labelProperty: JQuery;
     private _selProperty: JQuery;
     private _selReportType: JQuery;
     private _dataContainer: JQuery;
@@ -148,6 +149,10 @@ export class QtoPanel extends PanelBase {
         this._properties = [];
         this._properties.push('Level');
         this._properties.push('Type Name');
+        // display controls
+        this._selProperty.toggleClass('hidden', false);
+        this._labelProperty.toggleClass('hidden', false);
+        this._btnPropertyAdd.toggleClass('hidden', false);
         this.reloadData();
     }
 
@@ -156,15 +161,16 @@ export class QtoPanel extends PanelBase {
 
         tmp.innerHTML = content;
         this.scrollContainer.appendChild(tmp.childNodes[0]);
-        this._btnPropertyAdd = $('#btn-property-add');
-        this._btnPropertyAdd.on('click', (e) => {
-            this.onBtnPropertyAddClick(e);
-        });
         this._selReportType = $('#report-type');
         this._selReportType.on('change', (e) => {
             this.onSelReportTypeChange(e);
         });
+        this._labelProperty = $('#property-label');
         this._selProperty = $('#property');
+        this._btnPropertyAdd = $('#btn-property-add');
+        this._btnPropertyAdd.on('click', (e) => {
+            this.onBtnPropertyAddClick(e);
+        });
         this._dataContainer = $('#qto-data');
         this._dataContainer.on('click', (e) => {
             this.onDataContainerClick(e);
