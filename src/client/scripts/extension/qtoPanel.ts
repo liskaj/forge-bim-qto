@@ -65,7 +65,9 @@ export class QtoPanel extends PanelBase {
         if (!this._templateLoaded) {
             return;
         }
-        // TODO: Update content if needed
+        if (this._data) {
+            this._controller.applyTheming(this._data);
+        }
     }
 
     private reloadData(): void {
@@ -179,6 +181,17 @@ export class QtoPanel extends PanelBase {
             this.onDataContainerClick(e);
         });
         this._templateLoaded = true;
+        // poplate report-type dropdown
+        const keys: string[] = Object.keys(this._reports);
+
+        keys.forEach((k) => {
+            const reportData = this._reports[k];
+            const optionElement: HTMLOptionElement = document.createElement('option');
+
+            optionElement.value = k;
+            optionElement.innerText = reportData.name;
+            this._selReportType.append(optionElement);
+        });
         // update dialog
         this.refresh();
     }
