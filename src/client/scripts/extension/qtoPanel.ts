@@ -38,6 +38,9 @@ export class QtoPanel extends PanelBase {
             properties: ['Area', 'Length', 'Volume']
         };
         this._controller = controller;
+        this.addVisibilityListener((state: boolean) => {
+            this.onVisibilityChange(state);
+        });
         this.container.classList.add('qto-panel');
         this.container.style.left = '60px';
         this.container.style.top = '40px';
@@ -178,5 +181,11 @@ export class QtoPanel extends PanelBase {
         this._templateLoaded = true;
         // update dialog
         this.refresh();
+    }
+
+    private onVisibilityChange(state: boolean): void {
+        if (!state) {
+            this._controller.restoreDisplay();
+        }
     }
 }
