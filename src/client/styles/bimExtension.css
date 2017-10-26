@@ -16,7 +16,14 @@
 
 .qto-input-row > select {
     border-radius: 3px;
+    font-family: "Helvetica Neue Light","Segoe UI Semilight",sans-serif;
+    font-size: 14px;
     height: 22px;
+}
+
+.qto-input-row > select > option {
+    font-family: "Helvetica Neue Light","Segoe UI Semilight",sans-serif;
+    font-size: 14px;
 }
 
 .qto-input-row span:nth-child(1) {
