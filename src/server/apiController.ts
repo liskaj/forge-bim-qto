@@ -4,6 +4,7 @@
 'use strict';
 
 import * as express from 'express';
+import * as fs from 'fs';
 import * as forge from 'forge-apis';
 
 import { StatusCodes } from './statusCodes';
@@ -32,6 +33,9 @@ export class ApiController {
         this._router.get('/viewtoken', (req, res) => {
             this.getViewToken(req, res);
         });
+        this._router.get('/reports', (req, res) => {
+            this.getReports(req, res);
+        });
     }
 
     private getViewToken(req: express.Request, res: express.Response): void {
@@ -42,6 +46,30 @@ export class ApiController {
             res.status(StatusCodes.OK).json(token);
         }).catch((reason) => {
             res.status(StatusCodes.InternalServerError).json(reason);
+        });
+    }
+
+    private async getReports(req: express.Request, res: express.Response) {
+        try {
+            const data = await this.getReportData();
+
+            res.status(StatusCodes.OK).json(data);
+        }
+        catch (err) {
+            res.status(StatusCodes.InternalServerError).json({ error: err });
+        }
+    }
+
+    private async getReportData(): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            fs.readFile(__dirname + '/data/reports.json', 'utf-8', (err, data) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(JSON.parse(data));
+                }
+            });
         });
     }
 }

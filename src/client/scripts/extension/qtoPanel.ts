@@ -1,15 +1,9 @@
 ﻿import { PanelBase } from './panelBase';
-import { QtoController, QtoData, QtoDataRow } from './qtoController';
-
-interface ReportData {
-    name: string;
-    category: string;
-    properties: string[];
-}
+import { QtoController, QtoData, QtoDataRow, QtoReport } from './qtoController';
 
 export class QtoPanel extends PanelBase {
-    private _reports: { [name: string]: ReportData } = { };
-    private _reportData: ReportData;
+    private _reports: { [name: string]: QtoReport };
+    private _currentReport: QtoReport;
     private _controller: QtoController;
     private _data: QtoData;
     private _properties: string[] = [];
@@ -22,21 +16,6 @@ export class QtoPanel extends PanelBase {
 
     constructor(container: Element, id: string, controller: QtoController, options?: any) {
         super(container, id, 'QTO', options);
-        this._reports['curtain-panel-report'] = {
-            name: 'Curtain Panels',
-            category: 'Revit Curtain Panels',
-            properties: [ 'Area', 'Height', 'Width' ]
-        };
-        this._reports['door-report'] = {
-            name: 'Doors',
-            category: 'Revit Doors',
-            properties: [ 'Height', 'Width' ]
-        };
-        this._reports['wall-report'] = {
-            name: 'Walls',
-            category: 'Revit Walls',
-            properties: ['Area', 'Length', 'Volume']
-        };
         this._controller = controller;
         this.addVisibilityListener((state: boolean) => {
             this.onVisibilityChange(state);
@@ -65,6 +44,27 @@ export class QtoPanel extends PanelBase {
         if (!this._templateLoaded) {
             return;
         }
+        if (!this._reports) {
+            this._controller.getReports((err, data) => {
+                if (err) {
+                    console.error(err);
+                }
+                else {
+                    this._reports = data;
+                    // poplate report-type dropdown
+                    const keys: string[] = Object.keys(this._reports);
+
+                    keys.forEach((k) => {
+                        const reportData = this._reports[k];
+                        const optionElement: HTMLOptionElement = document.createElement('option');
+
+                        optionElement.value = k;
+                        optionElement.innerText = reportData.name;
+                        this._selReportType.append(optionElement);
+                    });
+                }
+            });
+        }
         if (this._data) {
             this._controller.applyTheming(this._data);
         }
@@ -72,7 +72,7 @@ export class QtoPanel extends PanelBase {
 
     private reloadData(): void {
         this._controller.getData(this._properties, (p) => {
-            return this._reportData.category === p;
+            return this._currentReport.category === p;
         }, (data) => {
             this._data = data;
             this._dataContainer.empty();
@@ -144,9 +144,9 @@ export class QtoPanel extends PanelBase {
     private onSelReportTypeChange(e: any): void {
         const reportType: string = <string> this._selReportType.val();
 
-        this._reportData = this._reports[reportType];
+        this._currentReport = this._reports[reportType];
         this._selProperty.empty();
-        this._reportData.properties.forEach((p) => {
+        this._currentReport.properties.forEach((p) => {
             const optionElement: HTMLOptionElement = document.createElement('option');
 
             optionElement.value = p;
@@ -183,17 +183,6 @@ export class QtoPanel extends PanelBase {
             this.onDataContainerClick(e);
         });
         this._templateLoaded = true;
-        // poplate report-type dropdown
-        const keys: string[] = Object.keys(this._reports);
-
-        keys.forEach((k) => {
-            const reportData = this._reports[k];
-            const optionElement: HTMLOptionElement = document.createElement('option');
-
-            optionElement.value = k;
-            optionElement.innerText = reportData.name;
-            this._selReportType.append(optionElement);
-        });
         // update dialog
         this.refresh();
     }

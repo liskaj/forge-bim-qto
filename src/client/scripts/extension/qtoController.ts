@@ -13,6 +13,12 @@ export interface QtoData {
     rows: QtoDataRow[];
 }
 
+export interface QtoReport {
+    name: string;
+    category: string;
+    properties: string[];
+}
+
 export class QtoController {
     private static s_Colors: string[] = [
         '#3957ff', '#d3fe14', '#c9080a', '#fec7f8', '#0b7b3e', '#0bf0e9', '#c203c8', '#fd9b39', '#888593', '#906407',
@@ -160,8 +166,27 @@ export class QtoController {
         });
     }
 
+    public getReports(callback: (err, data: { [id: string]: QtoReport }) => void): void {
+        $.ajax({
+            url: 'api/v1/reports',
+            type: 'GET',
+            dataType: 'JSON',
+            success: (response: any) => {
+                if (callback) {
+                    callback(null, response);
+                }
+            },
+            error: (response: any) => {
+                if (callback) {
+                    callback(response.statusText, null);
+                }
+            }
+        });
+    }
+
     public restoreDisplay(): void {
-        this.viewer.select();
+        this.viewer.clearSelection();
+        this.viewer.clearThemingColors(this.viewer.model);
         this.viewer.showAll();
     }
 

@@ -1,0 +1,28 @@
+{
+  "curtain-panel-report": {
+    "name": "Curtain Panels",
+    "category": "Revit Curtain Panels",
+    "properties": [
+      "Area",
+      "Height",
+      "Width"
+     ]
+  },
+  "door-report": {
+    "name": "Doors",
+    "category": "Revit Doors",
+    "properties": [
+      "Height",
+      "Width"
+    ]
+  },
+  "wall-report": {
+    "name": "Walls",
+    "category": "Revit Walls",
+    "properties": [
+      "Area",
+      "Length",
+      "Volume"
+    ]
+  }
+}
