@@ -25,3 +25,6 @@ src/server/bin/**
 src/server/obj/**
 src/server/**/*.js
 src/server/**/*.js.map
+
+# Other files
+npm-debug.log
