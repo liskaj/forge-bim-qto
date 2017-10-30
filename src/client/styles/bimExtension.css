@@ -79,7 +79,8 @@
 }
 
 .qto-data-row.selected {
-    background-color: rgba(95, 165, 230, 0.7);
+    background-color: rgba(165, 195, 225, 0.8);
+    border-radius: 2px;
 }
 
 .qto-data-row span {
