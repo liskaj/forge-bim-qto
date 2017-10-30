@@ -131,6 +131,10 @@ export class QtoPanel extends PanelBase {
     }
 
     private onDataContainerClick(e: any): void {
+        // hide existing selection
+        const rowElements = this._dataContainer.find('.qto-data-row');
+
+        rowElements.toggleClass('selected', false);
         const rowElement = $(e.target).closest('.qto-data-row');
 
         if (!rowElement) {
@@ -139,6 +143,7 @@ export class QtoPanel extends PanelBase {
         const row: QtoDataRow = this._data.rows[parseInt(rowElement.data('row'))];
 
         this._controller.select(row);
+        rowElement.toggleClass('selected', true);
     }
 
     private onSelReportTypeChange(e: any): void {
