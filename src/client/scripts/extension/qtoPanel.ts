@@ -67,7 +67,14 @@ export class QtoPanel extends PanelBase {
         }
         if (this._data) {
             this._controller.applyTheming(this._data);
+            this.clearSelection();
         }
+    }
+
+    private clearSelection(): void {
+        const rowElements = this._dataContainer.find('.qto-data-row');
+
+        rowElements.toggleClass('selected', false);
     }
 
     private reloadData(): void {
@@ -132,9 +139,7 @@ export class QtoPanel extends PanelBase {
 
     private onDataContainerClick(e: any): void {
         // hide existing selection
-        const rowElements = this._dataContainer.find('.qto-data-row');
-
-        rowElements.toggleClass('selected', false);
+        this.clearSelection();
         const rowElement = $(e.target).closest('.qto-data-row');
 
         if (!rowElement) {
