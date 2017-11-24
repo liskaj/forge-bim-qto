@@ -28,3 +28,4 @@ src/server/**/*.js.map
 
 # Other files
 npm-debug.log
+package-lock.json
