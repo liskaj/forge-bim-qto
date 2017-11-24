@@ -9,7 +9,7 @@
     "ts-compile": "node node_modules/typescript/bin/tsc -p ./src/server && node node_modules/typescript/bin/tsc -p ./src/client"
   },
   "engines": {
-    "node": "6.11.1"
+    "node": "8.9.0"
   },
   "repository": {
     "type": "git",
@@ -23,15 +23,14 @@
     "email": "jan.liska@autodesk.com"
   },
   "dependencies": {
-    "@types/body-parser": "^1.16.4",
+    "@types/body-parser": "^1.16.8",
     "@types/express": "^4.0.36",
-    "@types/jquery": "^3.2.15",
-    "@types/three": "^0.84.19",
+    "@types/jquery": "^3.2.16",
     "body-parser": "^1.15.2",
     "bower": "^1.8.2",
     "express": "^4.14.0",
     "forge-apis": "^0.4.1",
-    "typescript": "^2.4.2"
+    "typescript": "^2.6.1"
   },
   "devDependencies": {
     "tslint": "^5.7.0"
