@@ -1,40 +1,40 @@
-/// <reference path='../../node_modules/@types/three/index.d.ts' />
+/// <reference path='../three/three.d.ts' />
 
 declare module Autodesk {
     export module Viewing {
         // events
+        export var AGGREGATE_SELECTION_CHANGED_EVENT: string;
+        export var ANIMATION_READY_EVENT: string;
+        export var CAMERA_CHANGE_EVENT: string;
+        export var CUTPLANES_CHANGE_EVENT: string;
         export var ESCAPE_EVENT: string;
+        export var EXPLODE_CHANGE_EVENT: string;
         export var EXTENSION_LOADED_EVENT: string;
         export var FINAL_FRAME_RENDERED_CHANGED_EVENT: string;
-        export var PROGRESS_UPDATE_EVENT: string;
+        export var FIT_TO_VIEW_EVENT: string;
         export var FULLSCREEN_MODE_EVENT: string;
-        export var NAVIGATION_MODE_CHANGED_EVENT: string;
-        export var VIEWER_STATE_RESTORED_EVENT: string;
-        export var VIEWER_RESIZE_EVENT: string;
-        export var VIEWER_INITIALIZED: string;
-        export var VIEWER_UNINITIALIZED: string;
+        export var GEOMETRY_LOADED_EVENT: string;
+        export var HIDE_EVENT: string;
+        export var HIGHLIGHT_EVENT: string;
+        export var ISOLATE_EVENT: string;
+        export var LAYER_VISIBILITY_CHANGED_EVENT: string;
         export var MODEL_ROOT_LOADED_EVENT: string;
         export var MODEL_UNLOADED_EVENT: string;
-        export var GEOMETRY_LOADED_EVENT: string;
-        export var TOOLBAR_CREATED_EVENT: string;
-        export var VIEW_CUBE_CREATED_EVENT: string;
+        export var NAVIGATION_MODE_CHANGED_EVENT: string;
         export var OBJECT_TREE_CREATED_EVENT: string;
         export var OBJECT_TREE_UNAVAILABLE_EVENT: string;
-        export var MODEL_UNLOADED_EVENT: string;
-        export var SELECTION_CHANGED_EVENT: string;
-        export var AGGREGATE_SELECTION_CHANGED_EVENT: string;
-        export var ISOLATE_EVENT: string;
-        export var HIDE_EVENT: string;
-        export var SHOW_EVENT: string;
-        export var HIGHLIGHT_EVENT: string;
-        export var CAMERA_CHANGE_EVENT: string;
-        export var EXPLODE_CHANGE_EVENT: string;
-        export var CUTPLANES_CHANGE_EVENT: string;
-        export var TOOL_CHANGE_EVENT: string;
+        export var PROGRESS_UPDATE_EVENT: string;
         export var RENDER_OPTION_CHANGED_EVENT: string;
-        export var LAYER_VISIBILITY_CHANGED_EVENT: string;
         export var RESET_EVENT: string;
-        export var ANIMATION_READY_EVENT: string;
+        export var SELECTION_CHANGED_EVENT: string;
+        export var SHOW_EVENT: string;
+        export var TOOL_CHANGE_EVENT: string;
+        export var TOOLBAR_CREATED_EVENT: string;
+        export var VIEW_CUBE_CREATED_EVENT: string;
+        export var VIEWER_INITIALIZED: string;
+        export var VIEWER_RESIZE_EVENT: string;
+        export var VIEWER_STATE_RESTORED_EVENT: string;
+        export var VIEWER_UNINITIALIZED: string;
 
         export enum SelectionMode {
             LEAF_OBJECT,
@@ -168,6 +168,7 @@ declare module Autodesk {
 
         export class Navigation {
             dollyFromPoint(distance: number, point: THREE.Vector3): void;
+            fitBounds(immediate: boolean, bounds: THREE.Box3): any;
             getCamera(): UnifiedCamera;
             getCameraUpVector(): THREE.Vector3;
             getEyeVector(): THREE.Vector3;
@@ -353,6 +354,10 @@ declare module Autodesk {
             export function getHtmlTemplate(url: string, callback: (error: string, content: string) => void): void;
             export function injectCss(url: string, callback: () => void, onError: (event: Event) => void): void;
 
+            export class BoundsCallback {
+                constructor(bounds: THREE.Box3);
+            }
+
             export class GuiViewer3D extends Viewer3D {
                 constructor(container: HTMLElement, config?: ViewerConfig);
 
@@ -364,6 +369,7 @@ declare module Autodesk {
                 navigation: Navigation;
                 toolbar: UI.ToolBar;
 
+                dispatchEvent(eventData: any): void;
                 getCamera(): UnifiedCamera;
                 getToolbar(create: boolean): UI.ToolBar;
                 initialize(): any;
@@ -403,6 +409,13 @@ declare module Autodesk {
                 }, closeCallback?: (event: any) => void, buttonCallback?: (event: any) => void, checkboxCallback?: (event: any) => void): void;
 
                 static dismiss(): boolean;
+            }
+
+            export class VertexBufferReader {
+                constructor(geometry: any, useInstancing?: boolean);
+
+                enumGeomsForObject(dbId: number, callback: BoundsCallback): void;
+                enumGeomsForVisibleLayer(layerIdsVisible: number[], callback: BoundsCallback): void;
             }
 
             export class Viewer3DImpl {

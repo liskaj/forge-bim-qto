@@ -9,9 +9,9 @@ declare module 'forge-apis' {
     }
 
     export class AuthClientThreeLegged {
-        constructor(clientId: string, clientSecret: string, redirectUri: string, scope: string[]);
+        constructor(clientId: string, clientSecret: string, redirectUri: string, scope: string[], autoRefresh: boolean);
 
-        generateAuthUrl(): string;
+        generateAuthUrl(state: string): string;
         getToken(code: string): Promise<Autodesk.Forge.AuthToken>;
         refreshToken(credentials: Autodesk.Forge.AuthToken): Promise<Autodesk.Forge.AuthToken>;
     }
