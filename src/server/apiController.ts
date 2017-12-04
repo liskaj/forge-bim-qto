@@ -60,7 +60,7 @@ export class ApiController {
         }
     }
 
-    private async getReportData(): Promise<any> {
+    private getReportData(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             fs.readFile(__dirname + '/data/reports.json', 'utf-8', (err, data) => {
                 if (err) {
