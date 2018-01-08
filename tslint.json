@@ -152,15 +152,13 @@
     "strict-type-predicates": false,
     "promise-function-async": false,
     "quotemark": [
-      false,
-      "double",
+      true,
       "single"
     ],
     "radix": false,
     "restrict-plus-operands": false,
     "semicolon": [
-      true,
-      "ignore-bound-class-methods"
+      true
     ],
     "space-before-function-paren": false,
     "strict-boolean-expressions": false,
