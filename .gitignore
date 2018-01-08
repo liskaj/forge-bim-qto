@@ -8,6 +8,7 @@ node_modules/**
 src/client/lib
 
 # VS Specific Files
+.vscode
 src/.vs
 src/*.sln
 src/client/*.csproj
