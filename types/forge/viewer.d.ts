@@ -64,6 +64,7 @@ declare module Autodesk {
             sharedPropertyDbPath: string;
             startOnInitialize: boolean;
             wantInfoButton: boolean;
+            theme: string;
         }
 
         export function createInitializerOptions(): InitializerOptions;
@@ -529,15 +530,17 @@ declare module Autodesk {
             }
 
             export class DockingPanel {
-                constructor(parentContainer: any, id: string, title: string, options?: any);
+                constructor(parentContainer: Element, id: string, title: string, options?: any);
 
                 closer: HTMLElement;
                 container: any;
                 content: any;
+                footer: any;
                 id: string;
                 scrollContainer: HTMLElement;
                 title: string;
                 titleTable: string;
+                viewer: Autodesk.Viewing.Private.GuiViewer3D;
 
                 initialize(): void;
                 uninitialize(): void;
