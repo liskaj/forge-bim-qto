@@ -1,15 +1,8 @@
-@font-face {
-    font-family: Artifakt Element;
-    font-style: normal;
-    font-weight: 100;
-    src: url(../fonts/Artifakt%20Element%20Regular.woff2) format("woff2");
-}
-
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Artifakt Element'
+    font-family: ArtifaktElement
 }
 
 header {
