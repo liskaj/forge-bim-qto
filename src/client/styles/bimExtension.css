@@ -1,8 +1,18 @@
 .qto-btn {
-    background:url(../images/qto.png) no-repeat;
+    mask: url(../images/qto.svg);
+    mask-repeat: no-repeat;
+    mask-position: 2px 2px;
+    -webkit-mask: url(../images/qto.svg);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 2px 2px;
+    background-color: #f4f4f4;
     background-position: center;
     height: 24px;
     width: 24px;
+}
+
+.qto-btn:hover {
+    background-color: #00bfff;
 }
 
 .qto-panel-container {
