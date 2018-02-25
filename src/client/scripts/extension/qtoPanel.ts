@@ -14,8 +14,8 @@ export class QtoPanel extends PanelBase {
     private _selReportType: JQuery;
     private _dataContainer: JQuery;
 
-    constructor(container: Element, id: string, controller: QtoController, options?: any) {
-        super(container, id, 'QTO', options);
+    constructor(viewer: Autodesk.Viewing.Private.GuiViewer3D, id: string, controller: QtoController) {
+        super(viewer, id, 'QTO');
         this._controller = controller;
         this.addVisibilityListener((state: boolean) => {
             this.onVisibilityChange(state);
@@ -23,12 +23,12 @@ export class QtoPanel extends PanelBase {
         this.container.classList.add('qto-panel');
         this.container.style.left = '60px';
         this.container.style.top = '40px';
-        this.container.style.width = '440px';
+        this.container.style.width = '460px';
         this.container.style.height = '300px';
         this.container.style.position = 'absolute';
         // scroll container
         this.createScrollContainer({
-            heightAdjustment: 40,
+            heightAdjustment: 70,
             left: false,
             marginTop: 0
         });

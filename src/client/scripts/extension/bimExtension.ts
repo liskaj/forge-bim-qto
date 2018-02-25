@@ -46,7 +46,7 @@ export class BIMExtension extends Autodesk.Viewing.Extension {
 
     private onQto(e: MouseEvent): void {
         if (!this._qtoPanel) {
-            this._qtoPanel = new QtoPanel(this.viewer.container, 'BIMExtension.QtoPanel', this._qtoController);
+            this._qtoPanel = new QtoPanel(this.viewer, 'BIMExtension.QtoPanel', this._qtoController);
             this.viewer.addPanel(this._qtoPanel);
             // as the panel visibility changes, we fix the button state
             this._qtoPanel.addVisibilityListener((state: boolean) => {
