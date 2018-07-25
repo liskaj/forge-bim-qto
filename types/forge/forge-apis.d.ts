@@ -2,6 +2,7 @@ declare module 'forge-apis' {
     export class AuthClientTwoLegged {
         constructor(clientId: string, clientSecret: string, scope: string[], autoRefresh: boolean);
 
+        basePath: string;
         authenticate(): Promise<Autodesk.Forge.AuthToken>;
         getCredentials(): Autodesk.Forge.AuthToken;
         setCredentials(credentials: Autodesk.Forge.AuthToken): void;
