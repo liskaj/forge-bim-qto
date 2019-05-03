@@ -1,4 +1,5 @@
-﻿import { BIMExtension } from './extension/bimExtension';
+﻿import axios from 'axios';
+import { BIMExtension } from './extension/bimExtension';
 
 Autodesk.Viewing.theExtensionManager.registerExtension('BIMExtension', BIMExtension);
 
@@ -21,8 +22,8 @@ export class AppController {
     }
 
     private getToken(callback: (token: string, expires: number) => void): void {
-        $.get('/api/v1/viewtoken', (tokenResponse: any) => {
-            callback(tokenResponse.access_token, tokenResponse.expires_in);
+        axios.get('/api/v1/viewtoken').then((response: any) => {
+            callback(response.data.access_token, response.data.expires_in);
         });
     }
 
@@ -39,7 +40,7 @@ export class AppController {
                     this._initialized = true;
                     const config = Autodesk.Viewing.createViewerConfig();
 
-                    config.extensions = [ 'BIMExtension '];
+                    config.extensions = [ 'BIMExtension' ];
                     this._viewer = new Autodesk.Viewing.ViewingApplication('viewer-container');
                     this._viewer.registerViewer(this._viewer.k3D, Autodesk.Viewing.Private.GuiViewer3D, config);
                     this.loadDocument(this._viewer, urn).then((document) => {

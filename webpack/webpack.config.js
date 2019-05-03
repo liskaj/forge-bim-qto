@@ -12,7 +12,6 @@ const config = {
     },
     externals: {
         axios: 'axios',
-        moment: 'moment',
         three: 'THREE'
     },
     output: {
