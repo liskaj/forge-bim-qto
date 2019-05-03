@@ -1,11 +1,12 @@
 {
   "name": "forge-bim-qto",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Forge BIM QTO application",
   "main": "src/server/server.js",
   "scripts": {
     "start": "node src/server/server.js",
-    "postinstall": "node node_modules/bower/bin/bower install && npm run ts-compile",
+    "postinstall": "npm run build",
+    "build": "npm run build:server && npm run build:client",
     "build:server": "node node_modules/typescript/bin/tsc -p ./src/server",
     "build:client": "webpack --mode=production --config=webpack/webpack.config.js",
     "build:client-dev": "webpack --mode=development --config=webpack/webpack.config.js"
