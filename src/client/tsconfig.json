@@ -1,24 +1,17 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "listFiles": true,
-    "locale": "en-US",
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
     "module": "amd",
     "moduleResolution": "node",
     "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "typeRoots": [
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "../../types"
     ]
-  },
-  "files": [
-    "scripts/appController.ts",
-    "scripts/main.ts",
-    "scripts/viewerController.ts",
-    "scripts/extension/bimExtension.ts",
-    "scripts/extension/panelBase.ts",
-    "scripts/extension/qtoController.ts",
-    "scripts/extension/qtoPanel.ts"
-  ]
+  }
 }

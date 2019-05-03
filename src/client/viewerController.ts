@@ -1,8 +1,4 @@
-﻿/// <reference path='../../../types/forge/viewer.d.ts' />
-
-'use strict';
-
-type EventCallback = (event: any) => void;
+﻿type EventCallback = (event: any) => void;
 
 export class ViewerController {
     private _viewerEvents: { [key: string]: EventCallback } = {};

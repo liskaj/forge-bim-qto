@@ -1,9 +1,4 @@
-﻿/// <reference path='../../types/forge/forge.d.ts' />
-/// <reference path='../../types/forge/forge-apis.d.ts' />
-
-'use strict';
-
-import * as express from 'express';
+﻿import * as express from 'express';
 import * as fs from 'fs';
 import * as forge from 'forge-apis';
 

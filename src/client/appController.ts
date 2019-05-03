@@ -1,9 +1,4 @@
-﻿/// <reference path='../../../types/forge/forge.d.ts' />
-/// <reference path='../../../types/forge/viewer.d.ts' />
-
-'use strict';
-
-import { ViewerController } from './viewerController';
+﻿import { ViewerController } from './viewerController';
 import { BIMExtension } from './extension/bimExtension';
 
 Autodesk.Viewing.theExtensionManager.registerExtension('BIMExtension', BIMExtension);
@@ -24,7 +19,7 @@ export class AppController {
     }
 
     private getToken(callback: (token: string, expires: number) => void): void {
-        $.get('/api/v1/viewtoken', (tokenResponse: Autodesk.Forge.AuthToken) => {
+        $.get('/api/v1/viewtoken', (tokenResponse: any) => {
             callback(tokenResponse.access_token, tokenResponse.expires_in);
         });
     }
@@ -94,6 +89,7 @@ export class AppController {
 
     private onGeometryLoaded(event: any) {
         this._viewer.viewer.loadExtension('BIMExtension').then((e) => {
+            // tslint:disable-next-line
             console.debug('BIM extension loaded');
         });
     }

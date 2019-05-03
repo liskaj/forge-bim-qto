@@ -1,6 +1,4 @@
-﻿/// <reference path='../../../../types/forge/viewer.d.ts' />
-
-import { QtoController } from './qtoController';
+﻿import { QtoController } from './qtoController';
 import { QtoPanel } from './qtoPanel';
 
 export class BIMExtension extends Autodesk.Viewing.Extension {

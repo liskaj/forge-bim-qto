@@ -1,6 +1,4 @@
-﻿/// <reference path='../../../../types/forge/viewer.d.ts' />
-
-import * as THREE from 'three';
+﻿import * as THREE from 'three';
 
 export interface QtoDataRow {
     dbIds: number[];
@@ -166,7 +164,7 @@ export class QtoController {
         });
     }
 
-    public getReports(callback: (err, data: { [id: string]: QtoReport }) => void): void {
+    public getReports(callback: (err: any, data: { [id: string]: QtoReport }) => void): void {
         $.ajax({
             url: 'api/v1/reports',
             type: 'GET',
