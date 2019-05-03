@@ -1,12 +1,11 @@
-﻿import { ViewerController } from './viewerController';
-import { BIMExtension } from './extension/bimExtension';
+﻿import { BIMExtension } from './extension/bimExtension';
 
 Autodesk.Viewing.theExtensionManager.registerExtension('BIMExtension', BIMExtension);
 
 export class AppController {
     private _initialized: boolean;
     private _urn: string;
-    private _viewer: ViewerController;
+    private _viewer: Autodesk.Viewing.ViewingApplication;
 
     constructor() {
         this._initialized = false;
@@ -15,7 +14,10 @@ export class AppController {
     }
 
     public initialize(): void {
-        this.load();
+        this.load(this._urn).then(() => {
+            // tslint:disable-next-line
+            console.debug('document loaded');
+        });
     }
 
     private getToken(callback: (token: string, expires: number) => void): void {
@@ -24,73 +26,66 @@ export class AppController {
         });
     }
 
-    private load(): void {
-        if (!this._initialized) {
-            const options: Autodesk.Viewing.InitializerOptions = Autodesk.Viewing.createInitializerOptions();
+    private load(urn: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            if (!this._initialized) {
+                const options: Autodesk.Viewing.InitializerOptions = Autodesk.Viewing.createInitializerOptions();
 
-            options.env = 'AutodeskProduction';
-            options.getAccessToken = this.getToken.bind(this);
-            options.refreshToken = this.getToken.bind(this);
-            options.useADP = false;
-            Autodesk.Viewing.Initializer(options, () => {
-                this._initialized = true;
-                this.loadDocument(this._urn);
-            });
-        }
-        else {
-            this.loadDocument(this._urn);
-        }
-    }
+                options.env = 'AutodeskProduction';
+                options.getAccessToken = this.getToken.bind(this);
+                options.refreshToken = this.getToken.bind(this);
+                options.useADP = false;
+                Autodesk.Viewing.Initializer(options, () => {
+                    this._initialized = true;
+                    const config = Autodesk.Viewing.createViewerConfig();
 
-    private loadDocument(urn: string): void {
-        let documentId: string = urn;
-
-        if (documentId.indexOf('urn:') !== 0) {
-            documentId = 'urn:' + documentId;
-        }
-        Autodesk.Viewing.Document.load(documentId, (doc: Autodesk.Viewing.Document) => {
-            this.onDocumentLoaded(doc);
-        }, (errorCode: number, errorMsg: string, messages: any[]) => {
-            this.onDocumentError(errorCode, errorMsg, messages);
+                    config.extensions = [ 'BIMExtension '];
+                    this._viewer = new Autodesk.Viewing.ViewingApplication('viewer-container');
+                    this._viewer.registerViewer(this._viewer.k3D, Autodesk.Viewing.Private.GuiViewer3D, config);
+                    this.loadDocument(this._viewer, urn).then((document) => {
+                        this.selectItem(this._viewer, document).then(() => {
+                            resolve();
+                        });
+                    });
+                });
+            } else {
+                this.loadDocument(this._viewer, this._urn).then((document) => {
+                    this.selectItem(this._viewer, document).then(() => {
+                        resolve();
+                    });
+                });
+            }
         });
     }
 
-    private onDocumentLoaded(document: Autodesk.Viewing.Document): void {
-        const options = {
-            type: 'geometry',
-            role: '3d'
-        };
-        const items = Autodesk.Viewing.Document.getSubItemsWithProperties(document.getRootItem(), options, true);
+    private loadDocument(viewer: Autodesk.Viewing.ViewingApplication, urn: string): Promise<Autodesk.Viewing.Document> {
+        return new Promise<Autodesk.Viewing.Document>((resolve, reject) => {
+            let documentId: string = urn;
 
-        if (items.length > 0) {
-            const path: string = document.getViewablePath(items[0]);
-            const viewerOptions = {
-                isAEC: true,
-                sharedPropertyDbPath: document.getPropertyDbPath()
-            };
-
-            this.updateViewer(path, viewerOptions);
-        }
+            if (documentId.indexOf('urn:') !== 0) {
+                documentId = 'urn:' + documentId;
+            }
+            viewer.loadDocument(documentId, (doc: Autodesk.Viewing.Document) => {
+                resolve(doc);
+            }, (errorCode, errorMsg, messages) => {
+                reject(new Error(errorMsg));
+            });
+        });
     }
 
-    private onDocumentError(errorCode: number, errorMsg: string, messages: any[]): void {
-        console.error('document load error: ' + errorMsg + '(' + errorCode + ')');
-    }
+    private selectItem(viewer: Autodesk.Viewing.ViewingApplication, document: Autodesk.Viewing.Document): Promise<Autodesk.Viewing.ViewerItem> {
+        return new Promise<Autodesk.Viewing.ViewerItem>((resolve, reject) => {
+            const viewables = viewer.bubble.search({ type: 'geometry' });
 
-    private updateViewer(path: string, options?: any) {
-        if (!this._viewer) {
-            const config: Autodesk.Viewing.ViewerConfig = Autodesk.Viewing.createViewerConfig();
-
-            this._viewer = new ViewerController('viewer-container', config);
-            this._viewer.onGeometryLoaded = this.onGeometryLoaded.bind(this);
-        }
-        this._viewer.loadModel(path, options);
-    }
-
-    private onGeometryLoaded(event: any) {
-        this._viewer.viewer.loadExtension('BIMExtension').then((e) => {
-            // tslint:disable-next-line
-            console.debug('BIM extension loaded');
+            if (viewables.length > 0) {
+                viewer.selectItem(viewables[0], (viewer2, item) => {
+                    resolve(item);
+                }, (errorCode, errorMsg, statusCode, statusText, messages) => {
+                    reject(new Error(errorMsg));
+                });
+            } else {
+                reject(new Error('No viewables found'));
+            }
         });
     }
 }
