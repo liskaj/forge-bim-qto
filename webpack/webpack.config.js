@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -11,13 +11,25 @@ const config = {
         app: './src/client/main.ts'
     },
     externals: {
-        axios: 'axios',
         three: 'THREE'
     },
     output: {
         filename: 'app.js',
         path: `${OUTPUT_FOLDER}/scripts`,
         publicPath: '/'
+    },
+    devServer: {
+        contentBase: `${OUTPUT_FOLDER}`,
+        filename: 'app.js',
+        inline: true,
+        proxy: {
+            '/api/*': {
+                logLevel: 'debug',
+                target: 'http://localhost:3000'
+            }
+        },
+        port: 5000,
+        publicPath: '/scripts/'
     },
     devtool: 'inline-source-map',
     module: {
@@ -42,11 +54,15 @@ const config = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            { from: 'src/client/extension/res/qtoPanel.html', to: `${OUTPUT_FOLDER}/scripts/extension/res` }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/client/extension/res/qtoPanel.html', to: path.resolve(__dirname, `../app/scripts//extension/res`) }
+            ]
+        }),
         new ForkTsCheckerWebpackPlugin({
-            tsconfig: path.resolve(__dirname, '../src/client/tsconfig.json')
+            typescript: {
+                configFile: path.resolve(__dirname, '../src/client/tsconfig.json')
+            }
         })
     ],
     resolve: {
