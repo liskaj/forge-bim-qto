@@ -7,13 +7,12 @@ export class BIMExtension extends Autodesk.Viewing.Extension {
     // buttons
     private _btnQto: Autodesk.Viewing.UI.Button;
 
-    constructor(viewer: Autodesk.Viewing.Private.GuiViewer3D, options: any) {
+    constructor(viewer: Autodesk.Viewing.GuiViewer3D, options: any) {
         super(viewer, options);
     }
 
     public load(): boolean {
         this._qtoController = new QtoController(this.viewer);
-        this.createToolbar();
         return true;
     }
 
@@ -24,6 +23,10 @@ export class BIMExtension extends Autodesk.Viewing.Extension {
             this._qtoPanel = null;
         }
         return true;
+    }
+
+    public onToolbarCreated(toolbar?: Autodesk.Viewing.UI.ToolBar): void {
+        this.createToolbar();
     }
 
     private createToolbar(): void {

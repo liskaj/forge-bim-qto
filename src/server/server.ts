@@ -12,8 +12,8 @@ app.use(bodyParser.json({ limit: '1mb' }));
 app.use('/', express.static(__dirname + '/../../app'));
 // load configuration
 const options: ApiControllerOptions = {
-    consumerKey: process.env.CONSUMER_KEY,
-    consumerSecret: process.env.CONSUMER_SECRET
+    consumerKey: process.env.FORGE_CLIENT_ID,
+    consumerSecret: process.env.FORGE_CLIENT_SECRET
 };
 
 // endpoints

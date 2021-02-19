@@ -30,13 +30,13 @@ export class QtoController {
         '#b091a7', '#647579', '#1f8d11', '#e7eafd', '#b9660b', '#a4a644', '#fec24c', '#b1168c', '#188cc1', '#7ab297',
         '#4468ae', '#c949a6', '#d48295', '#eb6dc2', '#d5b0cb', '#ff9ffb', '#fdb082', '#af4d44', '#a759c4', '#a9e03a'
     ];
-    private _viewer: Autodesk.Viewing.Private.GuiViewer3D;
+    private _viewer: Autodesk.Viewing.GuiViewer3D;
 
-    constructor(viewer: Autodesk.Viewing.Private.GuiViewer3D) {
+    constructor(viewer: Autodesk.Viewing.GuiViewer3D) {
         this._viewer = viewer;
     }
 
-    private get viewer(): Autodesk.Viewing.Private.GuiViewer3D {
+    private get viewer(): Autodesk.Viewing.GuiViewer3D {
         return this._viewer;
     }
 
@@ -53,7 +53,7 @@ export class QtoController {
                 ids.push(id);
             });
         });
-        this.viewer.isolateById(ids);
+        this.viewer.isolate(ids);
     }
 
     public getData(properties: string[], filterFn: (p: string) => boolean, callback: (data: QtoData) => void): void {
@@ -164,22 +164,11 @@ export class QtoController {
         });
     }
 
-    public getReports(callback: (err: any, data: { [id: string]: QtoReport }) => void): void {
-        $.ajax({
-            url: 'api/v1/reports',
-            type: 'GET',
-            dataType: 'JSON',
-            success: (response: any) => {
-                if (callback) {
-                    callback(null, response);
-                }
-            },
-            error: (response: any) => {
-                if (callback) {
-                    callback(response.statusText, null);
-                }
-            }
-        });
+    public async getReports(): Promise<{ [id: string]: QtoReport }> {
+        const response = await fetch('api/v1/reports');
+        const data = await response.json();
+
+        return data;
     }
 
     public restoreDisplay(): void {

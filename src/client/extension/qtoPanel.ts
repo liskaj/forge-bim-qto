@@ -14,7 +14,7 @@ export class QtoPanel extends PanelBase {
     private _selReportType: JQuery;
     private _dataContainer: JQuery;
 
-    constructor(viewer: Autodesk.Viewing.Private.GuiViewer3D, id: string, controller: QtoController) {
+    constructor(viewer: Autodesk.Viewing.GuiViewer3D, id: string, controller: QtoController) {
         super(viewer, id, 'QTO');
         this._controller = controller;
         this.addVisibilityListener((state: boolean) => {
@@ -40,29 +40,24 @@ export class QtoPanel extends PanelBase {
         });
     }
 
-    public refresh(): void {
+    public async refresh(): Promise<void> {
         if (!this._templateLoaded) {
             return;
         }
         if (!this._reports) {
-            this._controller.getReports((err, data) => {
-                if (err) {
-                    console.error(err);
-                }
-                else {
-                    this._reports = data;
-                    // poplate report-type dropdown
-                    const keys: string[] = Object.keys(this._reports);
+            const data = await this._controller.getReports();
 
-                    keys.forEach((k) => {
-                        const reportData = this._reports[k];
-                        const optionElement: HTMLOptionElement = document.createElement('option');
+            this._reports = data;
+            // poplate report-type dropdown
+            const keys: string[] = Object.keys(this._reports);
 
-                        optionElement.value = k;
-                        optionElement.innerText = reportData.name;
-                        this._selReportType.append(optionElement);
-                    });
-                }
+            keys.forEach((k) => {
+                const reportData = this._reports[k];
+                const optionElement: HTMLOptionElement = document.createElement('option');
+
+                optionElement.value = k;
+                optionElement.innerText = reportData.name;
+                this._selReportType.append(optionElement);
             });
         }
         if (this._data) {
