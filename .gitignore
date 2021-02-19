@@ -1,32 +1,15 @@
-# Git Folders
-/.git
-/.gitattributes
-/.gitignore
+# dependencies
+node_modules
 
-# Dependencies
-node_modules/**
-src/client/lib
-
-# VS Specific Files
+# ide
 .vscode
-src/.vs
-src/*.sln
-src/client/*.csproj
-src/client/*.csproj.user
-src/client/web.config
-src/client/web.*.config
-src/server/*.njsproj
 
-# Intermediate Files
-src/client/bin/**
-src/client/obj/**
-src/client/scripts/**/*.js
-src/client/scripts/**/*.js.map
-src/server/bin/**
-src/server/obj/**
-src/server/**/*.js
-src/server/**/*.js.map
+# output files
+src/**/*.js
+src/**/*.js.map
 
-# Other files
-npm-debug.log
+# other
+.env
 package-lock.json
+web.config
+
